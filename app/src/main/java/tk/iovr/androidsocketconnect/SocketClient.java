@@ -26,8 +26,8 @@ public class SocketClient  implements Runnable {
     private PrintWriter out = null;
     private String content = "";
 
-    public static String server_ip = "192.168.2.21";
-    public static String server_port ="5111" ;
+    public String server_ip = "192.168.2.21";
+    public int server_port =5111;
     public static boolean SocketStatus = false;
 
 
@@ -53,6 +53,7 @@ public class SocketClient  implements Runnable {
 
 
     public SocketClient(){
+
         try {
             StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
             StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
@@ -64,8 +65,14 @@ public class SocketClient  implements Runnable {
 
         }
     }
+    //构造方法 开启服务
+    public SocketClient(String ip,int port){
+        this.server_ip = ip;
+        this.server_port = port;
 
-    public static final SocketClient instanceClientSocket(){
+    }
+
+    public static SocketClient instanceClientSocket(){
         synchronized (SocketClient.class) {
             if(mClientSocket==null) {
                 mClientSocket = new SocketClient();
@@ -74,13 +81,13 @@ public class SocketClient  implements Runnable {
         return mClientSocket;
     }
 
-    public  void  ConnectionService(){
+    public void  ConnectionService(){
         try {
 
             if(socket!=null){
                 socket.close();
             }
-            socket = new Socket(server_ip, Integer.parseInt(server_port));
+            socket = new Socket(this.server_ip, this.server_port);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(
                     socket.getOutputStream())), true);
@@ -94,6 +101,14 @@ public class SocketClient  implements Runnable {
         }
     }
 
+    public void sendMsgToServer(Object msg){
+        if (socket.isConnected()) {
+            if (!socket.isOutputShutdown()) {
+                out.println(msg);
+                Log.e(TAG, "发送("+Utils.getTimeInfo()+")："+msg);
+            }
+        }
+    }
 
     //接收线程发送过来信息
     @SuppressLint("HandlerLeak")
@@ -101,8 +116,7 @@ public class SocketClient  implements Runnable {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             //处理接收的信息
-            Log.e(TAG, Utils.getTimeInfo()+" Client 接收("+content+ ")：");
-
+            Log.e(TAG, Utils.getTimeInfo()+" Client 接收到 ："+content );
             if(content.contains("Z0")){
                 sendMsgToServer("Z0\r\n");
             }
@@ -141,14 +155,6 @@ public class SocketClient  implements Runnable {
         }
     }
 
-    public void sendMsgToServer(Object msg){
-        if (socket.isConnected()) {
-            if (!socket.isOutputShutdown()) {
-                out.println(msg);
-                Log.e(TAG, "发送("+Utils.getTimeInfo()+")："+msg);
-            }
-        }
-    }
 
 
 }

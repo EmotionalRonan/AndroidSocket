@@ -156,7 +156,7 @@ public class SocketServer  implements Runnable{
                     //
                     // D/StrictMode: StrictMode policy violation; ~duration=4 ms: android.os.strictmode.NetworkViolation
                     mPrintWriter.println(msg);
-                    Log.e(TAG, Utils.getTimeInfo()+"Service" +"发送("+ "："+ msg +") to "+client.getInetAddress()+":"+client.getPort());
+                    Log.e(TAG, Utils.getTimeInfo()+" Service 发送("+ "："+ msg +") to "+client.getInetAddress()+":"+client.getPort());
 
 
                 }

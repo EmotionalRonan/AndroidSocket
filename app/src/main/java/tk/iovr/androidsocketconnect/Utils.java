@@ -130,14 +130,23 @@ public class Utils {
      *
      * @return
      */
-    public static String getMacAddress(Context paramContext) {
+    public static String getMacAddress(Context mContext) {
+//        Log.e(TAG, "getMacAddress");
+
         try {
             //获取本机器所有的网络接口
             Enumeration enumeration = NetworkInterface.getNetworkInterfaces();
+//            Log.e(TAG, "getMacAddress :"+enumeration.hasMoreElements());
+
             while (enumeration.hasMoreElements()) {
+
                 NetworkInterface networkInterface = (NetworkInterface)enumeration.nextElement();
+//                Log.e(TAG, "getMacAddress :"+networkInterface);
+
                 //获取硬件地址，一般是MAC
                 byte[] arrayOfByte = networkInterface.getHardwareAddress();
+//                Log.e(TAG, "getMacAddress: arrayOfByte:"+arrayOfByte );
+
                 if (arrayOfByte == null || arrayOfByte.length == 0) {
                     continue;
                 }
@@ -152,12 +161,15 @@ public class Utils {
                     stringBuilder.deleteCharAt(stringBuilder.length() - 1);
                 }
                 String str = stringBuilder.toString();
+//                Log.e(TAG, "getMacAddress: mac:"+str );
+
                 // wlan0:无线网卡 eth0：以太网卡
                 if (networkInterface.getName().equals("wlan0")) {
                     return str;
                 }
             }
         } catch (SocketException socketException) {
+            Log.e(TAG, "getMacAddress: SocketException "+socketException.getMessage());
             return null;
         }
         return null;
