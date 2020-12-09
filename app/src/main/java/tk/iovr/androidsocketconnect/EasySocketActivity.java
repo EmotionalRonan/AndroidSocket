@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.easysocket.EasySocket;
 import com.easysocket.callback.ProgressDialogCallBack;
 import com.easysocket.callback.SimpleCallBack;
+import com.easysocket.config.DefaultMessageProtocol;
 import com.easysocket.config.EasySocketOptions;
 import com.easysocket.connection.heartbeat.HeartManager;
 import com.easysocket.entity.OriginReadData;
@@ -311,7 +312,7 @@ public class EasySocketActivity extends AppCompatActivity {
                 .setSocketAddress(new SocketAddress(IPAddress, port)) // 主机地址
                 .setCallbackIdKeyFactory(new CallbackIdKeyFactoryImpl())
                 // 最好定义一个消息协议，方便解决 socket黏包、分包的问题
-                // .setReaderProtocol(new DefaultMessageProtocol()) // 默认的消息协议
+                 .setReaderProtocol( new DefaultMessageProtocol()) // 默认的消息协议
                 .build();
 
         // 初始化EasySocket
