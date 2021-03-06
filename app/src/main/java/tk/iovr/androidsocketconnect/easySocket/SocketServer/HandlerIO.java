@@ -1,5 +1,7 @@
 package tk.iovr.androidsocketconnect.easySocket.SocketServer;
 
+import android.util.Log;
+
 import com.google.gson.Gson;
 
 import tk.iovr.androidsocketconnect.easySocket.SocketServer.entity.IMessageProtocol;
@@ -21,8 +23,9 @@ import static tk.iovr.androidsocketconnect.Utils.getTimeInfo;
  */
 public class HandlerIO {
 
-    private IWriter easyWriter;
-    private IMessageProtocol messageProtocol;
+    private static final String TAG ="Handler Message" ;
+    private final IWriter easyWriter;
+    private final IMessageProtocol messageProtocol;
 
     public HandlerIO(IWriter easyWriter) {
         this.easyWriter = easyWriter;
@@ -74,6 +77,7 @@ public class HandlerIO {
                     }
                     break;
                 default:
+                    Log.e(TAG, "handReceiveMsg: Test id : "+ id );
 
             }
 

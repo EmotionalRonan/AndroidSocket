@@ -66,7 +66,6 @@ public class MainActivity extends AppCompatActivity {
     Button easySocket;
 
 
-
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {

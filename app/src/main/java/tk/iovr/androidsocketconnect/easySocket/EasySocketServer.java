@@ -11,6 +11,7 @@ import java.util.concurrent.Executors;
 
 import tk.iovr.androidsocketconnect.easySocket.SocketServer.ServerConfig;
 import tk.iovr.androidsocketconnect.easySocket.SocketServer.entity.DefaultMessageProtocol;
+import tk.iovr.androidsocketconnect.easySocket.SocketServer.entity.IMessageProtocol;
 import tk.iovr.androidsocketconnect.easySocket.SocketServer.iowork.IOManager;
 
 public class EasySocketServer implements Runnable{
@@ -43,7 +44,7 @@ public class EasySocketServer implements Runnable{
 
     private void initConfig() {
         // 默认的消息协议
-        ServerConfig.getInstance().setMessageProtocol(new DefaultMessageProtocol());
+        ServerConfig.getInstance().setMessageProtocol( new DefaultMessageProtocol());
     }
 
     @Override
